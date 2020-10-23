@@ -1,0 +1,22 @@
+ARG IMAGE_NAME
+FROM ${IMAGE_NAME}:10.2-devel-cudnn7-ubuntu16.04
+LABEL maintainer "NVIDIA CORPORATION <cudatools@nvidia.com>"
+
+ENV CUDNN_VERSION 7.6.5.32
+
+LABEL com.nvidia.cudnn.version="${CUDNN_VERSION}"
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    zlib1g-dev libbz2-dev libssl-dev libncurses5-dev libsqlite3-dev \
+    libreadline-dev tk-dev libgdbm-dev libdb-dev libpcap-dev xz-utils \
+    libexpat1-dev liblzma-dev libffi-dev libc6-dev wget \
+    && rm -rf /var/lib/apt/lists/* \
+    && wget https://www.python.org/ftp/python/3.7.8/Python-3.7.8.tgz \
+    && tar zxf Python-3.7.8.tgz && mkdir -p /usr/local/python3 \
+    && cd Python-3.7.8 && ./configure --prefix=/usr/local/python3 \
+    --enable-optimizations  --enable-shared \
+    LDFLAGS=-Wl,-rpath=/usr/local/python3/lib \
+    && make && make install \
+    && ln -s /usr/local/python3/bin/python3.7 /usr/bin/python3 \
+    && ln -s /usr/local/python3/bin/pip3.7 /usr/bin/pip3 \
+    && rm -rf Python-3.7.8.tgz Python-3.7.8

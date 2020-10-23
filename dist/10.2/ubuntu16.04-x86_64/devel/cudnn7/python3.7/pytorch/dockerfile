@@ -1,0 +1,5 @@
+ARG IMAGE_NAME
+FROM ${IMAGE_NAME}:10.2-devel-cudnn7-py3.7-ubuntu16.04
+LABEL maintainer "NVIDIA CORPORATION <cudatools@nvidia.com>"
+
+RUN  pip3 install torch===1.6.0 torchvision===0.7.0 -f https://download.pytorch.org/whl/torch_stable.html
