@@ -1,0 +1,12 @@
+ARG IMAGE_NAME
+FROM ${IMAGE_NAME}:10.2-devel-cudnn7-py3.7-ubuntu16.04
+LABEL maintainer "NVIDIA CORPORATION <cudatools@nvidia.com>"
+
+RUN apt-get update && apt-get install -y --no-install-recommends redis-server vim \
+    && pip3 install --no-cache-dir opencv-python opencv-contrib-python \
+    crypto tqdm cython decorator django future google-auth \
+    google-auth-oauthlib grpcio h5py redis pycryptodome pyinstaller \
+    scipy==1.2.1 scikit-image==0.14.3 albumentations==0.4.0 \
+    dask==2.8.0 torch==1.6.0 torchvision==0.2.2post3 \
+    -f https://download.pytorch.org/whl/torch_stable.html \
+    && rm -rf /tmp/*  && rm -rf /var/lib/apt/lists/* 
